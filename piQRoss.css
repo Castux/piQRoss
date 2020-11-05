@@ -43,6 +43,7 @@ tr, td, th {
 	display:flex;
 	align-items: flex-end;
 	align-self: flex-end;
+	justify-content: space-between;
 }
 
 .hintCol {

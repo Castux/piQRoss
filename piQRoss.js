@@ -13,12 +13,19 @@ var piQRoss = function () {
 	var hintsV = document.createElement("span");
 	hintsV.id = "hintsV";
 
+	var output = {};
+	output["ver"] = [];
+	output["hor"] = [];
+
 	var groupSize = 0;
 
-	for(cursorA=0; cursorA<size; cursorA++){	
+	for(cursorA=0; cursorA<size; cursorA++){
 		/* HORIZONTAL */
 		var hintRow = document.createElement("span");
 		hintRow.className = "hintRow";
+
+		var tmpRow = [];
+
 		for(cursorB = 0; cursorB<size; cursorB++){
 			if(data[cursorA][cursorB]){
 				groupSize++;
@@ -28,6 +35,8 @@ var piQRoss = function () {
 					hint.className = "hint";
 					hint.innerHTML = groupSize;
 					hintRow.appendChild(hint);
+
+					tmpRow.push(groupSize);
 				}
 				groupSize=0;
 			}
@@ -37,9 +46,15 @@ var piQRoss = function () {
 			hint.className = "hint";
 			hint.innerHTML = groupSize;
 			hintRow.appendChild(hint);
+
+			tmpRow.push(groupSize);
 		}
 		groupSize=0;
 		hintsH.appendChild(hintRow);
+
+		output["ver"].push(tmpRow);
+
+		var tmpCol = [];
 
 		/* VERTICAL */
 		var hintCol = document.createElement("span");
@@ -53,6 +68,8 @@ var piQRoss = function () {
 					hint.className = "hint";
 					hint.innerHTML = groupSize;
 					hintCol.appendChild(hint);
+
+					tmpCol.push(groupSize);
 				}
 				groupSize=0;
 			}
@@ -62,10 +79,17 @@ var piQRoss = function () {
 			hint.className = "hint";
 			hint.innerHTML = groupSize;
 			hintCol.appendChild(hint);
+
+			tmpCol.push(groupSize);
 		}
 		groupSize=0;
 		hintsV.appendChild(hintCol);
+
+		output["hor"].push(tmpCol);
 	}
+
+	console.log(output["hor"].length);
+	console.log(JSON.stringify(output));
 
 	var piQRoss = document.getElementById("piQRoss");
 	piQRoss.innerHTML = "";
@@ -73,7 +97,7 @@ var piQRoss = function () {
 	var a, b, tableElem, rowElem, colElem;
 	tableElem = document.createElement('table');
 	tableElem.id = "qrtable";
-	
+
 	a = size; b = size;
 	for (var i = 0; i < a; i++) {
 		rowElem = document.createElement('tr');
@@ -86,7 +110,7 @@ var piQRoss = function () {
 
 	var topFlex = document.createElement("span");
 	topFlex.id = "topFlex";
-	topFlex.appendChild(hintsV);	
+	topFlex.appendChild(hintsV);
 
 	var bottomFlex = document.createElement("span");
 	bottomFlex.id = "bottomFlex";
@@ -96,14 +120,14 @@ var piQRoss = function () {
 	piQRoss.appendChild(topFlex)
 	piQRoss.appendChild(bottomFlex)
 	document.body.appendChild(piQRoss);
-	
+
 	hintsV.style.width = tableElem.offsetWidth;
 	hintsH.style.height = tableElem.offsetHeight;
 
 	var cells  = document.getElementsByTagName("td");
 
 	for (var i = 0; i < cells.length ; i++) {
-	    cells[i].addEventListener("mousedown", 
+	    cells[i].addEventListener("mousedown",
 	        function (event) {
 	            event.preventDefault();
 	            if(this.style.backgroundColor=="black"){
