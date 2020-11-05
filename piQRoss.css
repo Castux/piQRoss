@@ -21,6 +21,8 @@ tr, td, th {
 #piQRoss {
 	overflow-x: scroll;
     white-space: nowrap;
+	max-width: 80%;
+	margin: 0 auto;
 }
 
 #bottomFlex {
